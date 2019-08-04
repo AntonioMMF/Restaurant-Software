@@ -199,19 +199,6 @@ export default function TableService(props) {
                       >
                         -
                       </Button>
-                      {/* <Button
-                        class="btn btn-square"
-                        onClick={() => handleDishAmount(dish._id, +1)}
-                        outline
-                      >
-                        +
-                      </Button>
-                      <Button
-                        onClick={() => handleDishAmount(dish._id, -1)}
-                        outline
-                      >
-                        -
-                      </Button> */}
                     </th>
                   </tr>
                 ))}
