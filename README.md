@@ -1,5 +1,7 @@
 Mobile App ( better to use with mobile view)
 
+2-Team project
+
 https://lachapenia.herokuapp.com/
 
 For use of all features log in as:
