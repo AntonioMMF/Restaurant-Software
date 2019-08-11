@@ -52,6 +52,25 @@ export default function Dishes(props) {
       (!formValues.active || dish.active)
   )
 
+  let foodFilter = dishes.filter(
+    dish =>
+      formValues.food &&
+      dish.type === 'Food' &&
+      (!formValues.active || dish.active)
+  )
+  let drinkFilter = dishes.filter(
+    dish =>
+      formValues.drink &&
+      dish.type === 'Drink' &&
+      (!formValues.active || dish.active)
+  )
+  let dessertFilter = dishes.filter(
+    dish =>
+      formValues.dessert &&
+      dish.type === 'Dessert' &&
+      (!formValues.active || dish.active)
+  )
+
   if (api.isLoggedIn())
     return (
       <div className="Dishes">
@@ -59,70 +78,185 @@ export default function Dishes(props) {
         {JSON.stringify(formValues, null, 2)}
         {JSON.stringify(dishes[0], null, 2)}
       </pre> */}
-        <div className="Dishes__img">
-          <Container className="pt-5">
+        <div className="Dishes__img p-5">
+          <Container>
             <Row>
               <Col>
-                {api.isLoggedIn() && (
-                  <Button className="btn-dark" onClick={handleClick}>
-                    Add New
-                  </Button>
-                )}
+                <Button className="btn-dark" onClick={handleClick}>
+                  Add New
+                </Button>
               </Col>
               <Col>
-                <Form>
-                  <Row>
-                    <input
-                      type="checkbox"
-                      id="food"
-                      {...getInputProps('food')}
-                    />
-
-                    <Label className="mr-3 text-white" for="food">
-                      Food
-                    </Label>
-                  </Row>
-                  <Row>
-                    <input
-                      type="checkbox"
-                      id="dessert"
-                      {...getInputProps('dessert')}
-                    />
-                    <Label className="mr-3 text-white" for="dessert">
-                      Dessert
-                    </Label>
-                  </Row>
-                  {api.isLoggedIn() && (
-                    <Row>
-                      <input
-                        type="checkbox"
-                        id="drink"
-                        {...getInputProps('drink')}
-                      />
-                      <Label className="mr-3 text-white" for="drink">
-                        Drink
-                      </Label>
-                    </Row>
-                  )}
-                </Form>
+                <input
+                  type="checkbox"
+                  id="active"
+                  className="text-white mt-3"
+                  {...getInputProps('active')}
+                />
+                <Label className="ml-3 mt-2 text-white" for="active">
+                  ACTIVE
+                </Label>
               </Col>
             </Row>
           </Container>
         </div>
         <Container>
           <Table>
-            <thead>
+            <tbody>
               <tr>
                 <th>
-                  <input type="checkbox" {...getInputProps('active')} />
+                  {formValues.food && (
+                    <img
+                      height="30px"
+                      src="https://i.imgur.com/iUCHOCt.png"
+                      alt=""
+                    />
+                  )}
+                  {!formValues.food && (
+                    <img
+                      height="30px"
+                      src="https://i.imgur.com/pBKElae.png"
+                      alt=""
+                    />
+                  )}
+                  <input
+                    style={{ opacity: 0 }}
+                    type="checkbox"
+                    id="food"
+                    {...getInputProps('food')}
+                  />
                 </th>
-                <th>Active</th>
+                <th>
+                  <Label className="mr-3" for="food">
+                    FOOD
+                  </Label>
+                </th>
                 <th />
                 <th />
               </tr>
-            </thead>
-            <tbody>
-              {[...filterDishesUser]
+              {[...foodFilter]
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((d, i) => (
+                  <tr key={d._id}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        name="active"
+                        checked={d.active}
+                        onChange={() => handleChange(d._id)}
+                      />
+                    </td>
+                    <td>
+                      <small>{d.name}</small>
+                    </td>
+                    <td>
+                      <small>$ {d.price}</small>
+                    </td>
+                    <td>
+                      <Button
+                        className="btn-sm"
+                        tag={Link}
+                        to={'/dishes/' + d._id}
+                        outline
+                      >
+                        Details
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              <tr>
+                <th>
+                  {formValues.dessert && (
+                    <img
+                      height="30px"
+                      src="https://i.imgur.com/T3hXJAs.png"
+                      alt=""
+                    />
+                  )}
+                  {!formValues.dessert && (
+                    <img
+                      height="30px"
+                      src="https://i.imgur.com/9rKMbxy.png"
+                      alt=""
+                    />
+                  )}
+                  <input
+                    type="checkbox"
+                    id="dessert"
+                    {...getInputProps('dessert')}
+                    style={{ opacity: 0 }}
+                  />
+                </th>
+                <th>
+                  <Label className="mr-3 " for="dessert">
+                    DESSERT
+                  </Label>
+                </th>
+                <th />
+                <th />
+              </tr>
+              {[...dessertFilter]
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((d, i) => (
+                  <tr key={d._id}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        name="active"
+                        checked={d.active}
+                        onChange={() => handleChange(d._id)}
+                      />
+                    </td>
+                    <td>
+                      <small>{d.name}</small>
+                    </td>
+                    <td>
+                      <small>$ {d.price}</small>
+                    </td>
+                    <td>
+                      <Button
+                        className="btn-sm"
+                        tag={Link}
+                        to={'/dishes/' + d._id}
+                        outline
+                      >
+                        Details
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              <tr>
+                <th>
+                  {formValues.drink && (
+                    <img
+                      height="25px"
+                      src="https://i.imgur.com/h7OESb9.png"
+                      alt=""
+                    />
+                  )}
+                  {!formValues.drink && (
+                    <img
+                      height="25px"
+                      src="https://i.imgur.com/xxIzDap.png"
+                      alt=""
+                    />
+                  )}
+                  <input
+                    type="checkbox"
+                    id="drink"
+                    {...getInputProps('drink')}
+                    style={{ opacity: 0 }}
+                  />
+                </th>
+                <th>
+                  <Label className="mr-3 " for="drink">
+                    DRINKS
+                  </Label>
+                </th>
+                <th />
+                <th />
+              </tr>
+              {[...drinkFilter]
                 .sort((a, b) => (a.name > b.name ? 1 : -1))
                 .map((d, i) => (
                   <tr key={d._id}>

@@ -3,9 +3,6 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') })
 
 // Seeds file that remove all users and create 2 new users
 
-// To execute this seed, run from the root of the project
-// $ node bin/seeds.js
-
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
